@@ -14,7 +14,7 @@ create a migration for the log/history table (see USAGE)
 
 ActiveRecord 2.1 introduces dirty changes; the ability to query a model object to track attribute changes before the record is saved using #changes, #changed, etc.
 
-However, belongs_to associations are cached simply as foreign key changes, so Ticket#changes yields something like ["status_id" => {"111", "222"}], which isn't especially helpful when rolling your own ticket history mechanism.
+However, belongs_to associations are cached simply as foreign key changes, so Ticket#changes yields something like {"status_id" => ["111", "222"]}, which isn't especially helpful when rolling your own ticket history mechanism.
 
 Expressive Records turns foreign key-based changes into meaningful terms.
 
