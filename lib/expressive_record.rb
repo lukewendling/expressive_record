@@ -2,12 +2,15 @@ module ExpressiveRecord
   def self.included(base)
     base.extend ClassMethods
   end
-  
-  def express_changes
+
+  # convention: the has_many association is named, i.e. ticket_changes, for model Ticket
+  def expressify(has_many_assoc = nil)
     ActiveRecord::Base.transaction do
       self.changes.each do |attr, values|
         valuefied = valuefy(attr, values)
-        ticket_changes.create(:attribute_type => attr, :old_value => valuefied[0], :new_value => valuefied[1])
+        assoc_name = has_many_assoc || "#{self.class.to_s.downcase}_changes"
+        assoc = self.send(assoc_name.to_sym)
+        assoc.create(:attribute_type => attr, :old_value => valuefied[0], :new_value => valuefied[1])
       end
     end
   end
@@ -25,9 +28,10 @@ module ExpressiveRecord
     end
 
   module ClassMethods
-    def expressify_changes
+    def express_changes(has_many_assoc = nil)
       before_update do |record|
-        record.express_changes
+        record.expressify has_many_assoc
       end
     end
   end
+end

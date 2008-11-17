@@ -4,7 +4,11 @@ Add meaningful names for belongs_to associations to Rails 2.1 model object dirty
 
 == Install
 
-sudo gem install lukewendling-expressive_record --source http://gems.github.com
+  script/plugin install git://github.com/lukewendling/expressive_record.git
+or
+  sudo gem install lukewendling-expressive_record --source http://gems.github.com
+
+create a migration for the log/history table (see USAGE)
 
 == Usage
 
@@ -15,9 +19,11 @@ However, belongs_to associations are cached simply as foreign key changes, so Ti
 Expressive Records turns foreign key-based changes into meaningful terms.
 
   class Ticket < ActiveRecord::Base
-    include ExpressRecord
+    include ExpressiveRecord
     
-    expressify_changes
+    has_many :ticket_changes
+    
+    express_changes :ticket_changes
     
   end
   
@@ -34,3 +40,6 @@ expressify_changes uses a before_update callback to register changes in a separa
       end
     end
   end
+  
+== TODO
+* add migration generator to create conventionally-named log table (ticket_changes) to schema
