@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.date = %q{2008-11-17}
   s.description = %q{Add meaningful names for belongs_to associations to Rails 2.1 model object dirty changes}
   s.email = %q{luke@lukewendling.com}
-  s.extra_rdoc_files = ["lib/expressive_record.rb", "README.rdoc"]
-  s.files = ["lib/expressive_record.rb", "Rakefile", "README.rdoc", "Manifest", "expressive_record.gemspec"]
+  s.extra_rdoc_files = ["CHANGELOG", "lib/expressive_record.rb", "README.rdoc"]
+  s.files = ["CHANGELOG", "expressive_record.gemspec", "init.rb", "lib/expressive_record.rb", "Manifest", "Rakefile", "README.rdoc"]
   s.has_rdoc = true
   s.homepage = %q{http://github.com/lukewendling/expressive_record}
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Expressive_record", "--main", "README.rdoc"]
