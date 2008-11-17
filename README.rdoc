@@ -4,7 +4,7 @@ Add meaningful names for belongs_to associations to Rails 2.1 model object dirty
 
 == Install
 
-sudo gem install lukewendling-expressive-record --source http://gems.github.com
+sudo gem install lukewendling-expressive_record --source http://gems.github.com
 
 == Usage
 
