@@ -1,6 +1,6 @@
 == Expressive Record
 
-Add meaningful names for belongs_to associations to Rails 2.1 model object dirty changes (http://dev.rubyonrails.org/changeset/9127)
+Add meaningful names for belongs_to associations to Rails 2.1 model object dirty changes (http://dev.rubyonrails.org/changeset/9127) to help with rolling your own history/audit logger.
 
 == Install
 
@@ -8,26 +8,27 @@ Add meaningful names for belongs_to associations to Rails 2.1 model object dirty
 or
   sudo gem install lukewendling-expressive_record --source http://gems.github.com
 
-create a migration for the log/history table (see USAGE)
+create a migration for the audit table (see USAGE)
 
 == Usage
 
 ActiveRecord 2.1 introduces dirty changes; the ability to query a model object to track attribute changes before the record is saved using #changes, #changed, etc.
 
-However, belongs_to associations are cached simply as foreign key changes, so Ticket#changes yields something like {"status_id" => ["111", "222"]}, which isn't especially helpful when rolling your own ticket history mechanism.
+However, belongs_to associations are cached simply as foreign key changes, so Ticket#changes yields something like {"status_id" => ["111", "222"]}, which isn't especially helpful when rolling your own audit logger.
 
-Expressive Records turns foreign key-based changes into meaningful terms.
+Expressive Record turns association (foreign key) changes into meaningful terms when the changes are saved to your audit table.
 
   class Ticket < ActiveRecord::Base
     include ExpressiveRecord
     
     has_many :ticket_changes
     
+    # pass in the name of your audit table (optional)
     express_changes :ticket_changes
     
   end
   
-expressify_changes uses a before_update callback to register changes in a separate log table, by convention, that has the following schema:
+express_changes adds a before_update callback to your model that inserts changes into an audit table with the following schema:
 
   class CreateTicketChanges < ActiveRecord::Migration
     def self.up
@@ -41,5 +42,8 @@ expressify_changes uses a before_update callback to register changes in a separa
     end
   end
   
+== Limitations
+* the current implementation assumes that all belongs_to foreign keys use Rails conventional names, like user_id or status_id. if you are connecting to a legacy db with fk's like customerID or whatever, this won't work.
+
 == TODO
-* add migration generator to create conventionally-named log table (ticket_changes) to schema
+* add migration generator to create conventionally-named log table (i.e. ticket_changes) to schema

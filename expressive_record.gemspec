@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Luke Wendling"]
-  s.date = %q{2008-11-17}
-  s.description = %q{Add meaningful names for belongs_to associations to Rails 2.1 model object dirty changes}
+  s.date = %q{2008-11-18}
+  s.description = %q{Add meaningful names for belongs_to associations to Rails 2.1 model object dirty changes to help with rolling your own history/audit logger.}
   s.email = %q{luke@lukewendling.com}
   s.extra_rdoc_files = ["CHANGELOG", "lib/expressive_record.rb", "README.rdoc"]
   s.files = ["CHANGELOG", "expressive_record.gemspec", "init.rb", "lib/expressive_record.rb", "Manifest", "Rakefile", "README.rdoc"]
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{expressive_record}
   s.rubygems_version = %q{1.3.1}
-  s.summary = %q{Add meaningful names for belongs_to associations to Rails 2.1 model object dirty changes}
+  s.summary = %q{Add meaningful names for belongs_to associations to Rails 2.1 model object dirty changes to help with rolling your own history/audit logger.}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
