@@ -42,6 +42,20 @@ express_changes adds a before_update callback to your model that inserts changes
     end
   end
   
+If using a before_update callback in subclasses, be sure to call 'super' as needed:
+
+  class A
+    # a before_update callback is auto-magically added
+    express_changes
+  end
+  
+  class A < B
+    def before_update
+      self.status = 'New' # do this before auditing
+      super # now insert changes into audit log
+    end
+  end
+  
 == Limitations
 * the current implementation assumes that all belongs_to foreign keys use Rails conventional names, like user_id or status_id. if you are connecting to a legacy db with fk's like customerID or whatever, this won't work.
 

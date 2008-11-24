@@ -3,19 +3,20 @@ module ExpressiveRecord
     base.extend ClassMethods
   end
 
-  # convention: the has_many association is named, i.e. ticket_changes, for model Ticket
-  def expressify(has_many_assoc = nil)
-    ActiveRecord::Base.transaction do
-      self.changes.each do |attr, values|
-        valuefied = valuefy(attr, values)
-        assoc_name = has_many_assoc || "#{self.class.to_s.downcase}_changes"
-        assoc = self.send(assoc_name.to_sym)
-        assoc.create(:attribute_type => attr, :old_value => valuefied[0], :new_value => valuefied[1])
+  private
+  
+    # convention: the has_many association is named, i.e. ticket_changes, for model Ticket
+    def expressify(has_many_assoc = nil)
+      ActiveRecord::Base.transaction do
+        self.changes.each do |attr, values|
+          valuefied = valuefy(attr, values)
+          assoc_name = has_many_assoc || "#{self.class.to_s.downcase}_changes"
+          assoc = self.send(assoc_name.to_sym)
+          assoc.create(:attribute_type => attr, :old_value => valuefied[0], :new_value => valuefied[1])
+        end
       end
     end
-  end
-
-  private
+  
   #    find association's meaningful value (i.e. user.name instead of user id)
     def valuefy(attr, values, assoc_attr = :name)
   #      TODO: is there a better way to determine if an attr is an association
@@ -29,9 +30,7 @@ module ExpressiveRecord
 
   module ClassMethods
     def express_changes(has_many_assoc = nil)
-      before_update do |record|
-        record.expressify has_many_assoc
-      end
+      define_method(:before_update) { expressify has_many_assoc }
     end
   end
 end
